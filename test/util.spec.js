@@ -3,6 +3,7 @@
 const expect       = require('chai').expect
     , parseMessage = require('../src/utils').parseMessage
     , objEmpty     = require('../src/utils').objEmpty
+    , containsHelp = require('../src/utils').containsHelp
     ;
 
 describe('utils', () => {
@@ -30,11 +31,22 @@ describe('utils', () => {
   })
 
   describe('objEmpty helper method', () => {
-    let message = JSON.stringify({message: 'hello bot.'});
+    let message = JSON.stringify({ message: 'hello bot.' });
     let parsed = parseMessage(message);
 
     it('should return true when object is empty', () => {
       expect(objEmpty(parsed)).to.be.true;
+    })
+  })
+
+  describe('containsHelp helper', () => {
+    let helpMessage = 'help!'
+    let noHelp = 'hello!'
+    it('should return false when help is in message.', () => {
+      expect(containsHelp(helpMessage)).to.be.true;
+    })
+    it('should return false', () => {
+      expect(containsHelp(noHelp)).to.be.false;
     })
   })
 })

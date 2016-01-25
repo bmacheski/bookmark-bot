@@ -13,7 +13,7 @@ const sendHelpMessage = () => {
 
 const containsHelp = (message) => {
   let helpFound = message.match(/help/i);
-  return (!helpFound) ? true : false;
+  return (helpFound) ? true : false;
 }
 
 /**
@@ -37,7 +37,7 @@ const parseForKeyWords = (message) => {
 }
 
 const parseMessage = (message) => {
-  return (containsHelp(message)) ? parseForKeyWords(message) : sendHelpMessage;
+  return (!containsHelp(message)) ? parseForKeyWords(message) : sendHelpMessage;
 }
 
 const objEmpty = (obj) => {
