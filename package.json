@@ -1,0 +1,32 @@
+{
+  "name": "bookmark-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha || true",
+    "start": "node ./src/index.js"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bmacheski/bookmark-bot.git"
+  },
+  "author": "Brian Macheski <bwm0007@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bmacheski/bookmark-bot/issues"
+  },
+  "homepage": "https://github.com/bmacheski/bookmark-bot#readme",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4"
+  },
+  "dependencies": {
+    "sequelize": "^3.18.0",
+    "slack-client": "^1.5.1",
+    "sqlite3": "^3.1.1"
+  }
+}
