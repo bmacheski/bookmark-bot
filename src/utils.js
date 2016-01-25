@@ -1,10 +1,12 @@
 'use strict';
 
-const sendHelpMessage = () => {
+const createHelpMessage = () => {
   let helpMessage = '';
   helpMessage += 'Beep boop. Welcome. I am BookmarkBot. \n';
   helpMessage += 'To save a bookmark, I will need data with a title, category and url. \n';
-  helpMessage += 'An example would be `title: Concurrency in Rust category: Rust url: youtube.com` \n';
+  helpMessage += 'An example would be as follows: \n';
+  helpMessage += '`title: Concurrency in Rust category: Rust url: www.youtube.com` \n';
+  return helpMessage;
 }
 
 /**
@@ -36,16 +38,20 @@ const parseForKeyWords = (message) => {
   }, {})
 }
 
-const parseMessage = (message) => {
-  return (!containsHelp(message)) ? parseForKeyWords(message) : sendHelpMessage;
-}
-
 const objEmpty = (obj) => {
   return (Object.keys(obj).length === 0) ? true : false
 }
 
+const objHasProps = (obj) => {
+  return (obj.hasOwnProperty('title') &&
+    obj.hasOwnProperty('category') &&
+    obj.hasOwnProperty('url')) ? true : false
+}
+
 module.exports = {
-  parseMessage: parseMessage,
+  parseForKeyWords: parseForKeyWords,
+  containsHelp: containsHelp,
+  createHelpMessage: createHelpMessage,
   objEmpty: objEmpty,
-  containsHelp: containsHelp
+  objHasProps: objHasProps
 }

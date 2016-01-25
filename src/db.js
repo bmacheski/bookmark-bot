@@ -14,7 +14,7 @@ const Bookmark = sequelize.define('Bookmark', {
   title:    { type: Sequelize.STRING },
   category: { type: Sequelize.STRING },
   url:      { type: Sequelize.STRING },
-  channel:  { type: Sequelize.STRING }
+  owner:    { type: Sequelize.STRING }
 }, {
   tableName: 'bookmarks'
 });

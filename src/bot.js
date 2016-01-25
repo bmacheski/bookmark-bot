@@ -1,11 +1,14 @@
 'use strict';
 
-const path         = require('path')
-    , util         = require('util')
-    , Bookmark     = require('./db').Bookmark
-    , parseMessage = require('./utils').parseMessage
-    , objEmpty     = require('./utils').objEmpty
-    , Slack        = require('slack-client')
+const path          = require('path')
+    , util          = require('util')
+    , Bookmark      = require('./db').Bookmark
+    , parseKeywords = require('./utils').parseForKeyWords
+    , objEmpty      = require('./utils').objEmpty
+    , objHasProps   = require('./utils').objHasProps
+    , containsHelp  = require('./utils').containsHelp
+    , createHelp    = require('./utils').createHelpMessage
+    , Slack         = require('slack-client')
     ;
 
 class Bot {
@@ -26,27 +29,33 @@ class Bot {
    */
 
   handleMessage(message) {
-    let parsed = parseMessage(message.text);
-    let objIsEmpty = objEmpty(parsed);
     let user = message.user;
     let channel = message.channel;
+    let messageText = message.text;
     let matchedUser = this.slack.getUserByID(user);
     let matchedChannel = this.slack.getChannelGroupOrDMByID(channel);
 
-    if (message.type === 'message' && matchedUser !== 'bookmarkbot' && !objIsEmpty) {
-      this.saveBookmark(parsed, channel);
+    if (containsHelp(messageText)) {
+      let helpMessage = createHelp();
+      matchedChannel.send(helpMessage);
+    } else {
+      let parsed = parseKeywords(messageText);
+      let objHasCorrectProps = objHasProps(parsed);
+      if (message.type === 'message' && matchedUser !== 'bookmarkbot' && objHasCorrectProps) {
+        this.saveBookmark(parsed);
+      }
     }
   }
 
-  saveBookmark(parsed, channel) {
+  saveBookmark(parsed) {
     Bookmark
       .sync({ force: true })
       .then(() => {
         return Bookmark.create({
           title: parsed.title,
           category: parsed.category,
-          channel: channel,
-          url: parsed.url
+          url: parsed.url,
+          owner: matchedUser
         });
       })
   }
