@@ -48,10 +48,21 @@ const objHasProps = (obj) => {
     obj.hasOwnProperty('url')) ? true : false
 }
 
+const parseBookmarks = (bookmarks) => {
+  let bookmark = '';
+  bookmarks.forEach((bmark, idx) => {
+    bookmark += bmark.category + ' bookmarks: \n';
+    bookmark += idx + 1 + ') ';
+    bookmark +=  bmark.url;
+  })
+  return bookmark;
+}
+
 module.exports = {
   parseForKeyWords: parseForKeyWords,
   containsHelp: containsHelp,
   createHelpMessage: createHelpMessage,
   objEmpty: objEmpty,
-  objHasProps: objHasProps
+  objHasProps: objHasProps,
+  parseBookmarks: parseBookmarks
 }

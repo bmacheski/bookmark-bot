@@ -1,24 +1,38 @@
 'use strict';
 
-const config  = require('./config')
-  , Sequelize = require('sequelize')
+const Bookmark  = require('./models').Bookmark
+  , parseBmarks = require('./utils').parseBookmarks
+  , Sequelize   = require('sequelize')
   ;
 
-const sequelize = new Sequelize('database', 'username', 'password', {
-  dialect: config.dialect,
-  storage: config.storagePath
-});
+/**
+ * Database controllers
+ */
 
-const Bookmark = sequelize.define('Bookmark', {
-  id:       { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
-  title:    { type: Sequelize.STRING },
-  category: { type: Sequelize.STRING },
-  url:      { type: Sequelize.STRING },
-  owner:    { type: Sequelize.STRING }
-}, {
-  tableName: 'bookmarks'
-});
+module.exports.saveBookmark = (parsed) => {
+  Bookmark
+    .sync({ force: true })
+    .then(() => {
+      return Bookmark.create({
+        title: parsed.title,
+        category: parsed.category,
+        url: parsed.url
+      });
+    })
+}
 
-module.exports = {
-  Bookmark: Bookmark
+module.exports.findBookmarks = (search, channel) => {
+  Bookmark
+    .findAll({
+      where: {
+        category: {
+          $like: '%' + search + '%'
+        }
+      },
+      raw: true
+    })
+    .then((entry) => {
+      let parsed = parseBmarks(entry);
+      channel.send(parsed);
+    })
 }
