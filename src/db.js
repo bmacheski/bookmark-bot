@@ -10,14 +10,15 @@ const Bookmark  = require('./models').Bookmark
  */
 
 module.exports.saveBookmark = (parsed) => {
+  let category = parsed.category.toLowerCase();
   Bookmark
-    .sync({ force: true })
+    .create({
+      title: parsed.title,
+      category: category,
+      url: parsed.url
+    })
     .then(() => {
-      return Bookmark.create({
-        title: parsed.title,
-        category: parsed.category,
-        url: parsed.url
-      });
+      console.log('saved!');
     })
 }
 

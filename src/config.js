@@ -1,7 +1,9 @@
-const path = require('path');
+const path  = require('path')
+  , secrets = require('../secrets').secrets
+  ;
 
 module.exports = {
-  token: 'xoxb-18549611042-ICVIMTON30fENH4CiT4uEnvr',
+  token: secrets.token,
   dialect: 'sqlite',
   storagePath: path.resolve(__dirname, '../tutorialDb')
 }

@@ -40,7 +40,7 @@ class Bot {
 
     if (containsHelp(messageText)) {
       let helpMessage = createHelp();
-      matchedChannel.send(helpMessage);
+      this.matchedChannel.send(helpMessage);
     } else {
       let parsed = parseKeywords(messageText);
       let objHasCorrectProps = objHasProps(parsed);
@@ -54,7 +54,9 @@ class Bot {
 
   handleError(err) {
     if (err.msg === 'message text is missing') {
-      this.matchedChannel.send('Beep boop. Oops. I could\'t find that category in the database.');
+      this.matchedChannel.send('Beep boop. Oops. I could\'t find that category.');
+    } else {
+      this.matchedChannel.send('What? I didn\'t understand that. Type help if you aren\'t sure.');
     }
   }
 }
