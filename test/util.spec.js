@@ -2,8 +2,10 @@
 
 const expect        = require('chai').expect
     , parseKeywords = require('../src/utils').parseForKeyWords
+    , parseFound    = require('../src/utils').parseFoundText
     , objEmpty      = require('../src/utils').objEmpty
     , containsHelp  = require('../src/utils').containsHelp
+    , containsFind  = require('../src/utils').containsFindKeyword
     , objHasProps   = require('../src/utils').objHasProps
     ;
 
@@ -50,6 +52,32 @@ describe('utils', () => {
     })
     it('should return false when the correct bookmark values are not supplied', () => {
       expect(objHasProps(noObj)).to.be.false;
+    })
+  })
+
+  describe('containsFind helper method', () => {
+    let get = "get node";
+    let find = "find node";
+    let noFind = "node";
+    it('should return true when get in used in the message', () => {
+      expect(containsFind(get)).to.be.true;
+    })
+    it('should return true when find in used in the message', () => {
+      expect(containsFind(find)).to.be.true;
+    })
+    it('should return false when get or find are not used in the message', () => {
+      expect(containsFind(noFind)).to.be.false;
+    })
+  })
+
+  describe('parsesFoundMessage', () => {
+    let get = 'get node';
+    let find = ' find  node ';
+    it('should return true when get in used in the message', () => {
+      expect(parseFound(get)).to.eql('node');
+    })
+    it('should return true when get and extra spaces are used in the message', () => {
+      expect(parseFound(find)).to.eql('node');
     })
   })
 })

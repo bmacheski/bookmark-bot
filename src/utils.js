@@ -6,7 +6,17 @@ const createHelpMessage = () => {
   helpMessage += 'To save a bookmark, I will need data with a title, category and url. \n';
   helpMessage += 'An example would be as follows: \n';
   helpMessage += '`title: Concurrency in Rust category: Rust url: www.youtube.com` \n';
+  helpMessage += 'To retrieve bookmarks use `find` or `get` `bookmark name`\n';
+  helpMessage += 'An example would be `get node` or `find node`';
   return helpMessage;
+}
+/**
+ * Parses message looking for find keyword.
+ */
+
+const containsFindKeyword = (message) => {
+  let findFound = message.match(/find|get/i);
+  return (findFound) ? true : false;
 }
 
 /**
@@ -16,6 +26,18 @@ const createHelpMessage = () => {
 const containsHelp = (message) => {
   let helpFound = message.match(/help/i);
   return (helpFound) ? true : false;
+}
+
+
+/**
+ *  Parses message and removes find keyword.
+ */
+
+const parseFoundText = (message) => {
+   let re = /find|get/i;
+   let whitepace = / +/g
+   let newmessage = message.replace(re, '').replace(whitepace, '').trim();
+   return newmessage;
 }
 
 /**
@@ -49,11 +71,10 @@ const objHasProps = (obj) => {
 }
 
 const parseBookmarks = (bookmarks) => {
-  let bookmark = '';
+  let bookmark = bookmarks[0].category + ' bookmarks: \n';;
   bookmarks.forEach((bmark, idx) => {
-    bookmark += bmark.category + ' bookmarks: \n';
     bookmark += idx + 1 + ') ';
-    bookmark +=  bmark.url;
+    bookmark +=  bmark.url + '\n';
   })
   return bookmark;
 }
@@ -61,8 +82,10 @@ const parseBookmarks = (bookmarks) => {
 module.exports = {
   parseForKeyWords: parseForKeyWords,
   containsHelp: containsHelp,
+  containsFindKeyword: containsFindKeyword,
   createHelpMessage: createHelpMessage,
   objEmpty: objEmpty,
   objHasProps: objHasProps,
-  parseBookmarks: parseBookmarks
+  parseBookmarks: parseBookmarks,
+  parseFoundText: parseFoundText
 }
