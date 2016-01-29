@@ -59,10 +59,10 @@ describe('utils', () => {
     let get = "get node";
     let find = "find node";
     let noFind = "node";
-    it('should return true when get in used in the message', () => {
+    it('should return true when get is used in the message', () => {
       expect(containsFind(get)).to.be.true;
     })
-    it('should return true when find in used in the message', () => {
+    it('should return true when find is used in the message', () => {
       expect(containsFind(find)).to.be.true;
     })
     it('should return false when get or find are not used in the message', () => {
@@ -72,11 +72,11 @@ describe('utils', () => {
 
   describe('parsesFoundMessage', () => {
     let get = 'get node';
-    let find = ' find  node ';
-    it('should return true when get in used in the message', () => {
+    let find = '  find   node ';
+    it('should return the parsed query when get is used in the message', () => {
       expect(parseFound(get)).to.eql('node');
     })
-    it('should return true when get and extra spaces are used in the message', () => {
+    it('should return the parsed query when get and extra spaces are used in the message', () => {
       expect(parseFound(find)).to.eql('node');
     })
   })

@@ -10,6 +10,7 @@ const createHelpMessage = () => {
   helpMessage += 'An example would be `get node` or `find node`';
   return helpMessage;
 }
+
 /**
  * Parses message looking for find keyword.
  */
@@ -28,15 +29,13 @@ const containsHelp = (message) => {
   return (helpFound) ? true : false;
 }
 
-
 /**
  *  Parses message and removes find keyword.
  */
 
 const parseFoundText = (message) => {
-   let re = /find|get/i;
-   let whitepace = / +/g
-   let newmessage = message.replace(re, '').replace(whitepace, '').trim();
+   let re = /find|get\ +/ig;
+   let newmessage = message.replace(re, '').trim();
    return newmessage;
 }
 
@@ -71,7 +70,7 @@ const objHasProps = (obj) => {
 }
 
 const parseBookmarks = (bookmarks) => {
-  let bookmark = bookmarks[0].category + ' bookmarks: \n';;
+  let bookmark = bookmarks[0].category + ' bookmarks: \n';
   bookmarks.forEach((bmark, idx) => {
     bookmark += idx + 1 + ') ';
     bookmark +=  bmark.url + '\n';
