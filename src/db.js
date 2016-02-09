@@ -8,7 +8,7 @@ const Bookmark  = require('./models').Bookmark
  * Database controllers
  */
 
-module.exports.saveBookmark = (parsed, channel) => {
+const saveBookmark = (parsed, channel) => {
   let category = parsed.category.toLowerCase();
   Bookmark
     .create({
@@ -21,7 +21,7 @@ module.exports.saveBookmark = (parsed, channel) => {
     })
 }
 
-module.exports.findBookmarks = (search, channel) => {
+const findBookmarks = (search, channel) => {
   Bookmark
     .findAll({
       where: {
@@ -39,4 +39,9 @@ module.exports.findBookmarks = (search, channel) => {
         channel.send('Couldn\'t find that category. Try something else.')
       }
     })
+}
+
+module.exports = {
+  saveBookmark: saveBookmark,
+  findBookmarks: findBookmarks
 }

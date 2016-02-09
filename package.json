@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha || true",
-    "start": "node ./src/index.js"
+    "start": "node ./src/index.js",
+    "lint": "eslint src || true"
   },
   "engines": {
     "node": ">=4"
@@ -13,13 +14,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bmacheski/bookmark-bot.git"
-  },
-  "eslintConfig" : {
-    "env": {
-      "node": true,
-      "es6": true
-    },
-    "extends": "eslint:recommended"
   },
   "author": "Brian Macheski <bwm0007@gmail.com>",
   "license": "MIT",

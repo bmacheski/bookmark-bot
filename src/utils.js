@@ -15,7 +15,7 @@ const createHelpMessage = () => {
  * Parses message looking for find keyword.
  */
 
-const containsFindKeyword = (message) => {
+const containsFindKeyword = message => {
   let findFound = message.match(/find|get/i);
   return (findFound) ? true : false;
 }
