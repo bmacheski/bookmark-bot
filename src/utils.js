@@ -24,7 +24,7 @@ const containsFindKeyword = (message) => {
  * Parses message looking for help keyword.
  */
 
-const containsHelp = (message) => {
+const containsHelp = message => {
   let helpFound = message.match(/help/i);
   return (helpFound) ? true : false;
 }
@@ -33,7 +33,7 @@ const containsHelp = (message) => {
  *  Parses message and removes find keyword.
  */
 
-const parseFoundText = (message) => {
+const parseFoundText = message => {
    let re = /find|get\ +/ig;
    let newmessage = message.replace(re, '').trim();
    return newmessage;
@@ -43,7 +43,7 @@ const parseFoundText = (message) => {
  * Parses message looking for keywords: `title, category and url`.
  */
 
-const parseForKeyWords = (message) => {
+const parseForKeyWords = message => {
   let splitRes = message.split(/(title:|category:|url:)/);
   return splitRes.reduce((obj, value, i) => {
     switch(value) {
@@ -59,17 +59,17 @@ const parseForKeyWords = (message) => {
   }, {})
 }
 
-const objEmpty = (obj) => {
+const objEmpty = obj => {
   return (Object.keys(obj).length === 0) ? true : false
 }
 
-const objHasProps = (obj) => {
+const objHasProps = obj => {
   return (obj.hasOwnProperty('title') &&
     obj.hasOwnProperty('category') &&
     obj.hasOwnProperty('url')) ? true : false
 }
 
-const parseBookmarks = (bookmarks) => {
+const parseBookmarks = bookmarks => {
   let bookmark = bookmarks[0].category + ' bookmarks: \n';
   bookmarks.forEach((bmark, idx) => {
     bookmark += idx + 1 + ') ';
@@ -83,7 +83,6 @@ module.exports = {
   containsHelp: containsHelp,
   containsFindKeyword: containsFindKeyword,
   createHelpMessage: createHelpMessage,
-  objEmpty: objEmpty,
   objHasProps: objHasProps,
   parseBookmarks: parseBookmarks,
   parseFoundText: parseFoundText

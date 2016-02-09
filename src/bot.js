@@ -1,11 +1,9 @@
 'use strict';
 
-const path          = require('path')
-    , saveBookmark  = require('./db').saveBookmark
+const saveBookmark  = require('./db').saveBookmark
     , findBookmarks = require('./db').findBookmarks
     , parseKeywords = require('./utils').parseForKeyWords
     , parseFound    = require('./utils').parseFoundText
-    , objEmpty      = require('./utils').objEmpty
     , objHasProps   = require('./utils').objHasProps
     , containsHelp  = require('./utils').containsHelp
     , containsFind  = require('./utils').containsFindKeyword
@@ -48,21 +46,17 @@ class Bot {
       let helpMessage = createHelp();
       this.matchedChannel.send(helpMessage);
     } else if (objHasCorrectProps && message.type === 'message' && this.matchedUser !== 'bookmarkbot') {
-        saveBookmark(parsed);
+        saveBookmark(parsed, this.matchedChannel);
     } else if (!objHasCorrectProps && hasFind) {
-        let newText = parseFound(messageText)
+        let newText = parseFound(messageText);
         findBookmarks(newText, this.matchedChannel);
     } else {
         this.handleError();
     }
   }
 
-  handleError(err) {
-    if (err && err.msg === 'message text is missing') {
-      this.matchedChannel.send('Beep boop. Oops. I could\'t find that category.');
-    } else {
-      this.matchedChannel.send('What? I didn\'t understand that. Type help if you aren\'t sure what to do.');
-    }
+  handleError() {
+    this.matchedChannel.send('What? I didn\'t understand that. Type help if you aren\'t sure what to do.');
   }
 }
 

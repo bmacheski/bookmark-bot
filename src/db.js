@@ -2,14 +2,13 @@
 
 const Bookmark  = require('./models').Bookmark
   , parseBmarks = require('./utils').parseBookmarks
-  , Sequelize   = require('sequelize')
   ;
 
 /**
  * Database controllers
  */
 
-module.exports.saveBookmark = (parsed) => {
+module.exports.saveBookmark = (parsed, channel) => {
   let category = parsed.category.toLowerCase();
   Bookmark
     .create({
@@ -18,7 +17,7 @@ module.exports.saveBookmark = (parsed) => {
       url: parsed.url
     })
     .then(() => {
-      console.log('saved!');
+      channel.send('Saved that for you!')
     })
 }
 
@@ -33,7 +32,11 @@ module.exports.findBookmarks = (search, channel) => {
       raw: true
     })
     .then((entry) => {
-      let parsed = parseBmarks(entry);
-      channel.send(parsed);
+      if (entry.length) {
+        let parsed = parseBmarks(entry);
+        channel.send(parsed);
+      } else {
+        channel.send('Couldn\'t find that category. Try something else.')
+      }
     })
 }
